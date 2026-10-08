@@ -1,0 +1,5 @@
+# mantém as quebras de linha em LF (padrão do Prettier do projeto), inclusive no Windows
+* text=auto eol=lf
+*.ico binary
+*.png binary
+*.jpg binary

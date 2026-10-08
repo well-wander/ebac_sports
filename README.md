@@ -1,46 +1,40 @@
-# Getting Started with Create React App
+# EBAC Sports — Exercício de Redux com React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Exercício do módulo **Introdução ao Redux com React** do curso de Engenheiro Front-End da [EBAC](https://ebaconline.com.br).
 
-## Available Scripts
+Fork do [projeto base](https://github.com/havokkmorands/ebac_sports), com o gerenciamento de estado trocado de `useState` para **Redux**.
 
-In the project directory, you can run:
+## O que mudou
 
-### `npm start`
+| Antes (`useState` no `App`) | Depois (Redux) |
+|---|---|
+| `produtos` + `useEffect` com `fetch` | **RTK Query**: `useGetProdutosQuery` em `src/services/api.ts` |
+| `carrinho` + `adicionarAoCarrinho` | **slice** `carrinho` com a action `adicionar` |
+| `favoritos` + `favoritar` | **slice** `favoritos` com a action `favoritar` |
+| props passadas do `App` até o `Produto` | cada componente lê a store com **`useSelector`** e altera com **`useDispatch`** |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Estrutura
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+src/
+  services/api.ts            RTK Query: endpoint getProdutos
+  store/index.ts             configureStore + tipo RootReducer
+  store/reducers/carrinho.ts slice do carrinho
+  store/reducers/favoritos.ts slice dos favoritos
+```
 
-### `npm test`
+## Detalhes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- O `App` só envolve a aplicação com o `Provider`; não guarda mais estado nem repassa props (fim do *prop drilling*).
+- O reducer do carrinho é uma função pura: o aviso "Item já adicionado" fica no componente `Produto`, antes do `dispatch`.
+- A lista mostra "Carregando..." e uma mensagem de erro usando o `isLoading` e o `isError` do RTK Query.
+- Adicionado um `.gitattributes` para manter as quebras de linha em LF. Sem ele, no Windows o Prettier acusa erro na tela.
 
-### `npm run build`
+## Como rodar
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+A página abre em `http://localhost:3000`.
